@@ -1,37 +1,17 @@
-<img src="./img/archer2_logo.png"  width="355" height="100" align="left" /> <img src="./img/epcc_logo.jpg" align="right" width="133" height="100" />
+# ARCHER2 for package users
 
-<br /><br /><br /><br />
+This is not an official Carpentries lesson, but the Carpentries lesson template is excellent, so we are using it.
 
-# ARCHER2 course template (month YEAR)
+## Maintainer(s)
 
-Course description...
+* Andy Turner
 
-## Course timetable
-test
+## Authors
 
-### Day 1
+A list of contributors to the lesson can be found in [AUTHORS](AUTHORS)
 
- * 14:00 Welcome and overview
- * 14:10 [...]
- * 16:30 Close
+## Citation
 
-### Day 2
+To cite this lesson, please consult with [CITATION](CITATION)
 
-
- * 14:00 Welcome and recap
- * 14:10 [...]
- * 15:00 Break
- * 15:30 [...]
- * 16:30 Close
-
-## Course requirements
-
-All attendees will need their own desktop or laptop.
-
-If you are logging on to an external system then you will need to have an ssh client installed which comes as default for Linux and Mac systems.
-
-Linux users should open a command-line terminal and use ssh from the command line.
-
-Mac can open the Mac termimal application and use ssh from the command line. However, to display graphics from Cirrus you will also need to install Xquartz. Xquartz provides its own terminal called “Xterm”: if you have problems displaying graphics when using the Mac terminal, try logging in using ssh from within this Xterm.
-
-Windows users should install MobaXterm which provides ssh access, a Unix graphics client and a drag-and-drop file browser.
+[lesson-example]: https://carpentries.github.io/lesson-example
