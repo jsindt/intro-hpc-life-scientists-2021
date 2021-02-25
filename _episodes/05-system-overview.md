@@ -1,5 +1,5 @@
 ---
-title: "Overview of the ARCHER2 system"
+title: "HPC Architectures and Overview of the ARCHER2 system"
 teaching: 30
 exercises: 15
 questions:

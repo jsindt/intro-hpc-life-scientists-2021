@@ -12,7 +12,7 @@ keypoints:
 
 ## Message-passing interface (MPI)
 
-## OpenMP)
+## OpenMP
 
 ## CUDA
 

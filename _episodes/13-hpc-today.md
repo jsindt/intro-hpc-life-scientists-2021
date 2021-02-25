@@ -1,5 +1,5 @@
 ---
-title: "The HPC Landscape and Horizon"
+title: "The State of HPC Today"
 teaching: 30
 exercises: 0
 questions:

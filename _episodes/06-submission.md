@@ -1,5 +1,5 @@
 ---
-title: "ARCHER2 scheduler: Slurm"
+title: "Batch Systems and ARCHER2 Slurm Scheduler"
 teaching: 20
 exercises: 20
 questions:

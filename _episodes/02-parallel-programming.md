@@ -1,5 +1,5 @@
 ---
-title: "Parallel Programming Methods"
+title: "Parallel Computing"
 teaching: 60
 exercises: 0
 questions:
