@@ -1,5 +1,5 @@
 ---
-title: "Computational Building Blocks: Hardware and Software"
+title: "LECTURE: Computational Building Blocks: Hardware"
 teaching: 30
 exercises: 0
 questions:

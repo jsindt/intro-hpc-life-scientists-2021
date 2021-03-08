@@ -1,8 +1,7 @@
 ---
-title: "Measuring Parallel Performance"
+title: "LECTURE: Measuring Parallel Performance"
 teaching: 30
 exercises: 0
-start: True
 questions:
 - "What is scaling?"
 - "How well does my application scale?"

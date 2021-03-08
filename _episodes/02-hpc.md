@@ -1,6 +1,6 @@
 ---
-title: "High-Performance Computing (HPC)"
-teaching: 30
+title: "LECTURE: High-Performance Computing (HPC)"
+teaching: 20
 exercises: 0
 questions:
 - "What is high-performance computing?"

@@ -1,5 +1,5 @@
 ---
-title: "The State of HPC Today"
+title: "LECTURE: The HPC landcsape in the EU and UK"
 teaching: 30
 exercises: 0
 questions:

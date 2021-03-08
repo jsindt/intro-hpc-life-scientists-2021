@@ -1,7 +1,7 @@
 ---
-title: "Introducing BioExcel, PRACE, and EPCC training"
-teaching: 30
-exercises: 0
+title: "Who we are: Introducing BioExcel, PRACE, and EPCC training"
+teaching: 25
+exercises: 20
 questions:
 - "Who are we?"
 objectives:

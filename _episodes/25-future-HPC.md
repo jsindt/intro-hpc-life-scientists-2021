@@ -1,5 +1,5 @@
 ---
-title: "Parallel Models to Exploit Parallelism"
+title: "LECTURE: The future of HPC"
 teaching: 30
 exercises: 0
 questions:
@@ -10,11 +10,11 @@ keypoints:
 - "To be determined"
 ---
 
-## Shared-variables parallelism
+## HPC in the EU and UK
 
-## Message-passing parallelism
+## HPC Europa
 
-## Practicalities
+## The Future of HPC
 
 {% include links.md %}
 

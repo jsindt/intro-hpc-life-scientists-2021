@@ -1,5 +1,5 @@
 ---
-title: "Parallel Programming: Libraries and Implementations"
+title: "LECTURE: Computational Building Blocks: Software"
 teaching: 30
 exercises: 0
 questions:
@@ -10,13 +10,17 @@ keypoints:
 - "To be determined"
 ---
 
-## Message-passing interface (MPI)
+## Processors
 
-## OpenMP
+## Cores
 
-## CUDA
+## Memory
 
-## Scientific Libraries
+## Accelerators
+
+## Operating systems
+
+## Processes and threads
 
 {% include links.md %}
 

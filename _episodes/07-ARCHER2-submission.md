@@ -1,7 +1,7 @@
 ---
-title: "Batch Systems and ARCHER2 Slurm Scheduler"
-teaching: 20
-exercises: 20
+title: "PRACTICAL: Batch Systems and ARCHER2 Slurm Scheduler"
+teaching: 15
+exercises: 15
 questions:
 - "How do I write job submission scripts?"
 - "How do I control jobs?"
@@ -70,7 +70,7 @@ The nodes can be in many different states, the most common you will see are:
 If you prefer to see the state of individual nodes, you can use the `sinfo -N -l` command.
 
 > ## Lots to look at!
-> Warning! The `sinfo -N -l` command will produce a lot of output as there are over 1000 individual 
+> Warning! The `sinfo -N -l` command will produce a lot of output as there are over 1000 individual
 > nodes on the current ARCHER2 system!
 {: .callout}
 
@@ -80,15 +80,15 @@ auser@login01-nmn:~> sinfo -N -l
 {: .language-bash}
 ```
 Fri Jul 10 09:45:54 2020
-NODELIST   NODES PARTITION       STATE CPUS    S:C:T MEMORY TMP_DISK WEIGHT AVAIL_FE REASON              
-nid001001      1    standard        idle  256   2:64:2 244046        0      1   (null) none                
-nid001002      1    standard        idle  256   2:64:2 244046        0      1   (null) none                
-nid001003      1    standard        idle  256   2:64:2 244046        0      1   (null) none                
-nid001004      1    standard        idle  256   2:64:2 244046        0      1   (null) none                
-nid001005      1    standard        idle  256   2:64:2 244046        0      1   (null) none                
-nid001006      1    standard        idle  256   2:64:2 244046        0      1   (null) none                
-nid001007      1    standard        idle  256   2:64:2 244046        0      1   (null) none                
-nid001008      1    standard        idle  256   2:64:2 244046        0      1   (null) none  
+NODELIST   NODES PARTITION       STATE CPUS    S:C:T MEMORY TMP_DISK WEIGHT AVAIL_FE REASON
+nid001001      1    standard        idle  256   2:64:2 244046        0      1   (null) none
+nid001002      1    standard        idle  256   2:64:2 244046        0      1   (null) none
+nid001003      1    standard        idle  256   2:64:2 244046        0      1   (null) none
+nid001004      1    standard        idle  256   2:64:2 244046        0      1   (null) none
+nid001005      1    standard        idle  256   2:64:2 244046        0      1   (null) none
+nid001006      1    standard        idle  256   2:64:2 244046        0      1   (null) none
+nid001007      1    standard        idle  256   2:64:2 244046        0      1   (null) none
+nid001008      1    standard        idle  256   2:64:2 244046        0      1   (null) none
 
 ...lots of output trimmed...
 
@@ -135,7 +135,7 @@ nid001008      1    standard        idle  256   2:64:2 244046        0      1   
 
 As with most other scheduler systems, job submission scripts in Slurm consist of a header section with the
 shell specification and options to the submission command (`sbatch` in this case) followed by the body of
-the script that actually runs the commands you want. In the header section, options to `sbatch` should 
+the script that actually runs the commands you want. In the header section, options to `sbatch` should
 be prepended with `#SBATCH`.
 
 Here is a simple example script that runs the `xthi` program, which shows
@@ -205,14 +205,14 @@ Slurm reports back with the job ID for the job you have submitted
 > ## What are the default for `sbatch` options?
 > If you do not specify job options, what are the defaults for Slurm on ARCHER2? Submit jobs to find out
 > what the defaults are for:
-> 
+>
 > 1. The number of nodes used by the job?
 > 2. The number of tasks per node?
 > 3. The wall time limit? (Hint: you may need the command: `sacct` or `sinfo`)
-> 4. What other options can be ommited without error? 
-> 
+> 4. What other options can be ommited without error?
+>
 > > ## Solution
-> > 
+> >
 > > (1) If `--nodes` is omitted, the default is 1 node.
 > >
 > > (2) If `--ntasks-per-node` is omitted, the default is 1 task per node.
@@ -221,14 +221,14 @@ Slurm reports back with the job ID for the job you have submitted
 > >
 > > If we had a job with jobid 12345, then we could query the time limit
 > > for that particular job with, e.g.,
-> > 
+> >
 > > ```
 > > auser@login01-nmn:~> sacct -o "TimeLimit" -j 12345
 > > ```
 > > {: .language-bash}
 > > ```
-> >  Timelimit 
-> > ---------- 
+> >  Timelimit
+> > ----------
 > >   01:00:00
 > > ```
 > > {: .output}
@@ -299,16 +299,16 @@ srun xthi
 > This requires the option ``--cpus-per-task`` to specify how many "cpus"
 > (in this context, cores) are allocated to each MPI task.
 > Can you determine the `sbatch` options you would use to run `xthi`:
-> 
+>
 > 1. On 4 nodes with 64 tasks per node?
 > 2. On 2 nodes with 2 tasks per node, 1 task per socket?
 > 3. On 4 nodes with 8 tasks per node, ensuring an even distribution across
 >    the 8 NUMA regions on the node?
-> 
+>
 > Once you have your answers run them in job scripts and check that the
 > placement on
 > nodes and cores output by `xthi` is what you expect.
-> 
+>
 > > ## Solution
 > > 1. `--nodes=4 --ntasks-per-node=64`
 > > 2. `--nodes=2 --ntasks-per-node=2 --cpus-per-task=64`
@@ -317,97 +317,6 @@ srun xthi
 {: .challenge}
 
 
-### Hybrid MPI and OpenMP jobs
-
-When running hybrid MPI (with the individual tasks also known as ranks or
-processes) and OpenMP (with multiple threads) jobs you need to leave free
-cores between the parallel tasks launched using `srun` for the multiple
-OpenMP threads that will be associated with each MPI task.
-
-As we saw above, you can use the options to `sbatch` to control how many
-parallel tasks are placed on each compute node and can use the
-`--cpus-per-task` option to set the stride between parallel tasks
-to the right value to accommodate the OpenMP threads. The value
-of `--cpus-per-task` should usually be the same as that for
-`OMP_NUM_THREADS`.
-
-As an example, consider the job script below that runs across 2 nodes with
-8 MPI tasks per node and 16 OpenMP threads per MPI task (so all 256 cores
-are used).
-Here we use the standard OpenMP control setting `OMP_PLACES=cores`
-to specify that placement should be on the basis of cores.
-
-```
-#!/bin/bash
-
-#SBATCH --partition=standard
-#SBATCH --qos=standard
-#SBATCH --time=00:10:00
-
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=8
-#SBATCH --cpus-per-task=16
-
-#SBATCH --hint=nomultithread
-#SBATCH --distribution=block:cyclic
-
-module load epcc-job-env
-module load xthi/1.0
-
-export OMP_PLACES=cores
-export OMP_NUM_THREADS=16
-
-srun xthi
-```
-{: .language-bash}
-
-Each ARCHER2 compute node is made up of 8 NUMA (*Non Uniform Memory Access*) regions (4 per socket) 
-with 16 cores in each region. Programs where the threads span multiple NUMA regions
-are likely to be *less* efficient so we recommend using thread counts that fit well into the
-ARCHER2 compute node layout. Effectively, this means one of the following options for nodes
-where all cores are used:
-
-* 8 MPI tasks per node and 16 OpenMP threads per task: equivalent to 1 MPI task per NUMA region
-* 16 MPI tasks per node and 8 OpenMP threads per task: equivalent to 2 MPI tasks per NUMA region
-* 32 MPI tasks per node and 4 OpenMP threads per task: equivalent to 4 MPI tasks per NUMA region
-* 64 MPI tasks per node and 2 OpenMP threads per task: equivalent to 8 MPI tasks per NUMA region 
-
-> ## Two hardware threads per core
->
-> The `--hint=nomultithread` asks SLURM to ignore the possibility of running
-> two threads per core. If we remove this option, this makes available  256
-> "cpus" per node (2 threads per core in hardware). Can you write a script
-> to run 8 MPI tasks with 1 task per NUMA region running 32 OpenMP threads?
-> Note: physical cores appear as affinity 0-127, while the extra "logical"
-> cores are numbered 128-255. Logical cores 0 and 128 occupy the same physical
-> core etc.
-> 
->> ## Solution
->> ```
->>
->> #!/usr/bin/env bash
->> 
->> #SBATCH --partition=standard
->> #SBATCH --time=00:20:00
->> 
->> #SBATCH --nodes=2
->> #SBATCH --ntasks-per-node=8
->> 
->> #SBATCH --hint=multithread
->> #SBATCH --distribution=block:cyclic
->> 
->> #SBATCH --cpus-per-task=32
->> 
->> module load epcc-job-env
->> module load xthi/1.0
->> 
->> export OMP_PLACES=cores
->> export OMP_NUM_THREADS=32
->> 
->> srun xthi
->> ```
-> {: .solution}
-{: .challenge}
 
 
 ## STDOUT/STDERR from jobs
@@ -427,16 +336,16 @@ locations.
 ## Other useful information
 
 In this section we briefly introduce other scheduler topics that may be useful to users. We
-provide links to more information on these areas for people who may want to explore these 
-areas more. 
+provide links to more information on these areas for people who may want to explore these
+areas more.
 
-### Interactive jobs: `salloc` 
+### Interactive jobs: `salloc`
 
 Similar to the batch jobs covered above, users can also run interactive jobs using the Slurm
-command `salloc`. `salloc` takes the same arguments as `sbatch` but, obviously, these are 
+command `salloc`. `salloc` takes the same arguments as `sbatch` but, obviously, these are
 specified on the command line rather than in a job submission script.
 
-Once the job requested with `salloc` starts, you will be returned to the command line 
+Once the job requested with `salloc` starts, you will be returned to the command line
 and can now start parallel jobs on the compute nodes interactively with the `srun` command
 in the same way as you would within a job submission script.
 

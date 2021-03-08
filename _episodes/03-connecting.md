@@ -1,7 +1,7 @@
 ---
-title: "Connecting to ARCHER2 and transferring data"
-teaching: 20
-exercises: 15
+title: "PRACTICAL: Connecting to ARCHER2 and transferring data"
+teaching: 10
+exercises: 10
 questions:
 - "How can I access ARCHER2 interactively and transfer data?"
 objectives:

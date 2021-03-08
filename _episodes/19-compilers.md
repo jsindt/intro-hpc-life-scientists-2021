@@ -1,6 +1,6 @@
 ---
-title: "Building Software: From Algorithm to Executable"
-teaching: 30
+title: "LECTURE: Building and compiling software: from algorithm to executable"
+teaching: 25
 exercises: 0
 questions:
 - "What is compiling?"

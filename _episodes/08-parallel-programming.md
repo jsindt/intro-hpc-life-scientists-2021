@@ -1,7 +1,7 @@
 ---
-title: "Parallel Computing"
-teaching: 60
-exercises: 0
+title: "LECTURE: Parallel Computing"
+teaching: 20
+exercises: 10
 questions:
 - "Why parallel programming?"
 - ""
