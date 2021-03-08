@@ -2,7 +2,6 @@
 title: "LECTURE: Pipelines and Workflows"
 teaching: 45
 exercises: 0
-start: True
 questions:
 - "To be determined"
 objectives:

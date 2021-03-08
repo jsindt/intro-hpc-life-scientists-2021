@@ -1,7 +1,7 @@
 ---
 title: "PRACTICAL: HMMER (1 of 2)"
-teaching: 15
-exercises: 30
+teaching: 10
+exercises: 25
 questions:
 - ""
 objectives:
