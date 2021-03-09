@@ -8,11 +8,15 @@ questions:
 - "How will the course work and how will I get help?"
 - "How can I give feedback to improve the course?"
 objectives:
-- "Understand how this course works, how I can get help and how I can give feedback."
+- "Understand how this course works, how I can get help and how I can give
+feedback."
 keypoints:
-- "We should all understand and follow the ARCHER2 Code of Conduct to ensure this course is conducted in the best teaching environment."
-- "The course will be flexible to best meet the learning needs of the attendees."
-- "Feedback is an essential part of our training to allow us to continue to improve and make sure the course is as useful as possible to attendees."
+- "We should all understand and follow the ARCHER2 Code of Conduct to ensure
+this course is conducted in the best teaching environment."
+- "The course will be flexible to best meet the learning needs of the
+attendees."
+- "Feedback is an essential part of our training to allow us to continue to
+improve and make sure the course is as useful as possible to attendees."
 ---
 
 ## Course structure and method
