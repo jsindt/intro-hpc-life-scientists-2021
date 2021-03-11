@@ -24,7 +24,9 @@ question.
 > > A high-performance computer is a network of computers in a cluster that
 > > typically share a common purpose and are used to accomplish tasks that
 > > might otherwise be too big for any one computer.
-{: .question}
+> >
+> {: .solution}
+{: .challenge}
 
 ## Generic parallel machines and computer clusters
 
