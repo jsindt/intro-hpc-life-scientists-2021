@@ -21,6 +21,8 @@ question.
 >
 > On the Course Etherpad, write down what you think defines a high-performance
 > computer.
+> > ## Solution
+> >
 > > A high-performance computer is a network of computers in a cluster that
 > > typically share a common purpose and are used to accomplish tasks that
 > > might otherwise be too big for any one computer.
