@@ -49,7 +49,7 @@ By connecting them together, you could run jobs on 20 cores, which could
 result in your software running faster.
 
 {% include figure.html url="" max-width="80%"
-file="/fig/02-hpc/Camp_cluster.png" alt="Beowulf-style cluster"
+file="/fig/02-hpc/Camp_cluster.jpg" alt="Beowulf-style cluster"
 caption="Beowulf-style cluster" %}
 
 However, while this can increase the speed at which your codes run, or allow
