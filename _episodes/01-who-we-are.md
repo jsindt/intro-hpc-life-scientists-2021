@@ -54,8 +54,6 @@ Training Centres (PATCs). Information about PRACE training can be found
 
 ## EPCC
 
-### What is EPCC
-
 EPCC is a self-funding institute at the University of Edinburgh that:
 * provides world-class computing facilities for scientists
 * collaborates with researchers in a wide range of areas
