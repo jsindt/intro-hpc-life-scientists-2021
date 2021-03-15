@@ -1,16 +1,19 @@
 ---
-title: "PRACTICAL: HPC Architectures and Overview of the ARCHER2 system"
+title: "PRACTICAL: Overview of the ARCHER2 system and modules"
 teaching: 20
 exercises: 20
 questions:
 - "What hardware and software is available on ARCHER2?"
 - "How does the hardware fit together?"
+- "What software is available on ARCHER2 and how can I use it?"
 objectives:
 - "Gain an overview of the technology available on the ARCHER2 service."
+- "Know how to access different software on ARCHER2 using the module system."
 keypoints:
 - "ARCHER2 consists of high performance login nodes, compute nodes, storage systems and interconnect."
 - "There is a wide range of software available on ARCHER2."
 - "The system is based on standard Linux with command line access."
+- "Software is available through modules."
 ---
 
 ## Architecture
