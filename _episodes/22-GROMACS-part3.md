@@ -1,104 +1,66 @@
 ---
-title: "PRACTICAL: Benchmarking Molecular Dynamics Using GROMACS"
+title: "PRACTICAL: Benchmarking Molecular Dynamics Using GROMACS 3"
 teaching: 10
 exercises: 20
 questions:
-- "To be determined"
+- "What is multithreading?"
+- "How does load balancing affect GROMACS performance?"
 objectives:
-- ""
-- ""
+- "Understand what hyperthreading is, and how to use it on ARCHER2."
+- "Learn how to disable GROMACS dynamic load-balancing."
 keypoints:
-- "To be determined"
+- ""
 ---
 
-## Hybrid MPI and OpenMP jobs on ARCHER2
+## Two hardware threads per core
 
-When running hybrid MPI (with the individual tasks also known as ranks or
-processes) and OpenMP (with multiple threads) jobs you need to leave free
-cores between the parallel tasks launched using `srun` for the multiple
-OpenMP threads that will be associated with each MPI task.
-
-As we saw above, you can use the options to `sbatch` to control how many
-parallel tasks are placed on each compute node and can use the
-`--cpus-per-task` option to set the stride between parallel tasks
-to the right value to accommodate the OpenMP threads. The value
-of `--cpus-per-task` should usually be the same as that for
-`OMP_NUM_THREADS`.
-
-As an example, consider the job script below that runs across 2 nodes with
-8 MPI tasks per node and 16 OpenMP threads per MPI task (so all 256 cores
-are used).
-Here we use the standard OpenMP control setting `OMP_PLACES=cores`
-to specify that placement should be on the basis of cores.
+The `--hint=nomultithread` asks SLURM to ignore the possibility of running
+two threads per core. If we remove this option, this makes available  256
+"cpus" per node (2 threads per core in hardware). To run 8 MPI tasks with
+1 task per NUMA region running 32 OpenMP threads, the script would look like:
 
 ```
-#!/bin/bash
+#!/usr/bin/env bash
 
 #SBATCH --partition=standard
-#SBATCH --qos=standard
 #SBATCH --time=00:10:00
 
-#SBATCH --nodes=2
+#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
-#SBATCH --cpus-per-task=16
 
-#SBATCH --hint=nomultithread
+#SBATCH --hint=multithread
 #SBATCH --distribution=block:cyclic
+
+#SBATCH --cpus-per-task=32
 
 module load epcc-job-env
 module load xthi/1.0
 
 export OMP_PLACES=cores
-export OMP_NUM_THREADS=16
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun xthi
+srun gmx_mpi mdrun -ntomp $SLURM_CPUS_PER_TASK -s benchMEM.tpr
 ```
-{: .language-bash}
+Note: physical cores appear as affinity 0-127, while the extra "logical"
+cores are numbered 128-255. Logical cores 0 and 128 occupy the same physical
+core etc.
 
-Each ARCHER2 compute node is made up of 8 NUMA (*Non Uniform Memory Access*) regions (4 per socket)
-with 16 cores in each region. Programs where the threads span multiple NUMA regions
-are likely to be *less* efficient so we recommend using thread counts that fit well into the
-ARCHER2 compute node layout. Effectively, this means one of the following options for nodes
-where all cores are used:
-
-* 8 MPI tasks per node and 16 OpenMP threads per task: equivalent to 1 MPI task per NUMA region
-* 16 MPI tasks per node and 8 OpenMP threads per task: equivalent to 2 MPI tasks per NUMA region
-* 32 MPI tasks per node and 4 OpenMP threads per task: equivalent to 4 MPI tasks per NUMA region
-* 64 MPI tasks per node and 2 OpenMP threads per task: equivalent to 8 MPI tasks per NUMA region
-
-> ## Two hardware threads per core
+> ## Multithreading and GROMACS?
 >
-> The `--hint=nomultithread` asks SLURM to ignore the possibility of running
-> two threads per core. If we remove this option, this makes available  256
-> "cpus" per node (2 threads per core in hardware). Can you write a script
-> to run 8 MPI tasks with 1 task per NUMA region running 32 OpenMP threads?
-> Note: physical cores appear as affinity 0-127, while the extra "logical"
-> cores are numbered 128-255. Logical cores 0 and 128 occupy the same physical
-> core etc.
+> Staring with the MPI-only case first, how does enabling multithreading
+> affect GROMACS performance?
 >
->> ## Solution
->> ```
->>
->> #!/usr/bin/env bash
->>
->> #SBATCH --partition=standard
->> #SBATCH --time=00:20:00
->>
->> #SBATCH --nodes=2
->> #SBATCH --ntasks-per-node=8
->>
->> #SBATCH --hint=multithread
->> #SBATCH --distribution=block:cyclic
->>
->> #SBATCH --cpus-per-task=32
->>
->> module load epcc-job-env
->> module load xthi/1.0
->>
->> export OMP_PLACES=cores
->> export OMP_NUM_THREADS=32
->>
->> srun xthi
->> ```
-> {: .solution}
+> What about the performance of hybrid MPI+OpenMP jobs?
 {: .challenge}
+
+## Load balancing
+
+GROMACS performs dynamic load balancing when it deems necessary. Can you tell
+from your md.log files so far whether it has been doing so, and what it
+calculated the load imbalance was before deciding to do so?
+
+To demonstrate the effect of the load imbalance counteracted by GROMACS’s
+dynamic load balancing scheme, investigate what happens when this is turned
+off by including the `-dlb no` option to `gmx_mpi mdrun`.
+
+{% include links.md %}

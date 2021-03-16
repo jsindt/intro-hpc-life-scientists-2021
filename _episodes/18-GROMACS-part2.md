@@ -1,5 +1,5 @@
 ---
-title: "PRACTICAL: Benchmarking Molecular Dynamics Using GROMACS"
+title: "PRACTICAL: Benchmarking Molecular Dynamics Using GROMACS 2"
 teaching: 10
 exercises: 20
 questions:
@@ -9,7 +9,8 @@ objectives:
 - "Run a hybrid MPI with OpenMP simuation on ARCHER2."
 - "See how GROMACS performance is changed by including OpenMP."
 keypoints:
-- "To be determined"
+- "Hybrid MPI with OpenMP does affect performance."
+- "When running hybrid jobs, placement across NUMA regions is important."
 ---
 
 ## Aims
@@ -44,10 +45,12 @@ to specify that placement should be on the basis of cores.
 #!/bin/bash
 
 #SBATCH --partition=standard
-#SBATCH --qos=standard
+#SBATCH --qos=short
+#SBATCH --reservation=shortqos
+#SBATCH --account=ta017
 #SBATCH --time=00:10:00
 
-#SBATCH --nodes=2
+#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
 #SBATCH --cpus-per-task=16
 
@@ -57,6 +60,7 @@ to specify that placement should be on the basis of cores.
 module restore /etc/cray-pe.d/PrgEnv-gnu
 module load gromacs
 
+export OMP_PLACES=cores
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 srun gmx_mpi mdrun -ntomp $SLURM_CPUS_PER_TASK -s benchMEM.tpr
