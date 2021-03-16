@@ -1,14 +1,18 @@
+
+
+{% include links.md %}
 ---
 title: "PRACTICAL: Benchmarking Molecular Dynamics Performance Using GROMACS (Part 1 of 3)"
 teaching: 10
 exercises: 20
 questions:
-- "To be determined"
+- "How does a small, 80k-atom system performance scale as more cores are used?"
+- "What about a larger, 12M-atom system?"
 objectives:
 - "Gain a basic understanding of key aspects of running molecular dynamics
 simulations in parallel."
 keypoints:
-- "To be determined"
+- "Larger systems scale better to large core-/node-counts than smaller systems."
 ---
 
 ## Aims
@@ -85,16 +89,35 @@ of cores being used? You can vary this by changing
 
  |Number of cores| Walltime | Performance (ns/day) | Performance (hours/ns) |
  |---------------|----------|----------------------|------------------------|
- |   1 | | | |
- |   2 | | | |
- |   4 | | | |
- |   8 | | | |
- |  16 | | | |
- |  32 | | | |
- |  64 | | | |
- | 128 | | | |
- | 256 | | | |
- | 512 | | | |
+ |   1  | | | |
+ |   2  | | | |
+ |   4  | | | |
+ |   8  | | | |
+ |  16  | | | |
+ |  32  | | | |
+ |  64  | | | |
+ | 128  | | | |
+ | 256* | | | |
+ | 512* | | | |
 
+ ---
+ **NOTE**
+
+ Jobs run on more than one node will need to be run with constant
+ `#SBATCH --tasks-per-node=128` but varying `#SBATCH --nodes=1`
+
+ ---
+
+If you finish early, you can try generating this same table for the GROMACS
+benchPEP benchmark. You can get the benchmark by running:
+
+```
+wget https://www.mpibpc.mpg.de/15101317/benchPEP.zip
+unzip benchPEP.zip
+```
+
+This is a much larger system (12M atoms compared with 80k atoms for the
+benchPEP system). How does the performance scaling of this system compare with
+that of the smaller system?
 
 {% include links.md %}

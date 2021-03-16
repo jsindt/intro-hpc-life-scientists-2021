@@ -3,13 +3,22 @@ title: "PRACTICAL: Benchmarking Molecular Dynamics Using GROMACS"
 teaching: 10
 exercises: 20
 questions:
-- "To be determined"
+- "How do we run hybrid MPI and OpenMP jobs on ARCHER2?"
+- "Does adding OpenMP to MPI GROMACS affect performance?"
 objectives:
-- ""
-- ""
+- "Run a hybrid MPI with OpenMP simuation on ARCHER2."
+- "See how GROMACS performance is changed by including OpenMP."
 keypoints:
 - "To be determined"
 ---
+
+## Aims
+
+GROMACS can  run  in  parallel using  MPI  and  simultaneously  also  using
+OpenMP  threads (see [here](http://manual.gromacs.org/current/user-guide/mdrun-performance.html#multi-level-parallelization-mpi-and-openmp)).
+In this tutorial, you will learn how to run hybrid MPI and OpenMP jobs on
+ARCHER2, and you will benchmark the performance of the `bechMEM` system to see
+whether performance improves when using OpenMP threads.
 
 ## Hybrid MPI and OpenMP jobs on ARCHER2
 
@@ -45,13 +54,12 @@ to specify that placement should be on the basis of cores.
 #SBATCH --hint=nomultithread
 #SBATCH --distribution=block:cyclic
 
-module load epcc-job-env
-module load xthi/1.0
+module restore /etc/cray-pe.d/PrgEnv-gnu
+module load gromacs
 
-export OMP_PLACES=cores
-export OMP_NUM_THREADS=16
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun xthi
+srun gmx_mpi mdrun -ntomp $SLURM_CPUS_PER_TASK -s benchMEM.tpr
 ```
 {: .language-bash}
 
@@ -66,39 +74,28 @@ where all cores are used:
 * 32 MPI tasks per node and 4 OpenMP threads per task: equivalent to 4 MPI tasks per NUMA region
 * 64 MPI tasks per node and 2 OpenMP threads per task: equivalent to 8 MPI tasks per NUMA region
 
-> ## Two hardware threads per core
->
-> The `--hint=nomultithread` asks SLURM to ignore the possibility of running
-> two threads per core. If we remove this option, this makes available  256
-> "cpus" per node (2 threads per core in hardware). Can you write a script
-> to run 8 MPI tasks with 1 task per NUMA region running 32 OpenMP threads?
-> Note: physical cores appear as affinity 0-127, while the extra "logical"
-> cores are numbered 128-255. Logical cores 0 and 128 occupy the same physical
-> core etc.
->
->> ## Solution
->> ```
->>
->> #!/usr/bin/env bash
->>
->> #SBATCH --partition=standard
->> #SBATCH --time=00:20:00
->>
->> #SBATCH --nodes=2
->> #SBATCH --ntasks-per-node=8
->>
->> #SBATCH --hint=multithread
->> #SBATCH --distribution=block:cyclic
->>
->> #SBATCH --cpus-per-task=32
->>
->> module load epcc-job-env
->> module load xthi/1.0
->>
->> export OMP_PLACES=cores
->> export OMP_NUM_THREADS=32
->>
->> srun xthi
->> ```
-> {: .solution}
-{: .challenge}
+## Instructions
+
+For this tutorial, you will start by comparing the performance of a simulation
+that uses all of the cores on a node. Using the code above as a template, try
+running simulations that use varying levels of MPI and OpenMP (making sure
+that the number of MPI ranks and OpenMP threads always multiply to 128 or
+less). How do the simulation times change as you increase the numbers change?
+How do these times change if you do not spread the threads over the NUMA
+regions as suggested?
+
+You may find it helpful to fill out this table
+
+| MPI Ranks | OpenMP threads | Walltime (s) | performance (ns/day) |
+|-----------|----------------|--------------|----------------------|
+|       128 |              1 | | |
+|        64 |              2 | | |
+|        42 |              3 | | |
+|        32 |              4 | | |
+|        25 |              5 | | |
+|        16 |              8 | | |
+|         8 |             16 | | |
+
+
+
+{% include links.md %}
